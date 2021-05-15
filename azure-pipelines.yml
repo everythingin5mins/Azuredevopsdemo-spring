@@ -1,8 +1,14 @@
 #Demo Spring application
 
 trigger:
-- master
-  
+ branches:
+    include:
+      - master
+pr:
+  branches:
+    include:
+      - master
+
 pool:
   vmImage: ubuntu-latest
 
@@ -29,3 +35,22 @@ stages:
               sonarQubeRunAnalysis: false
               checkStyleRunAnalysis: true
               pmdRunAnalysis: true
+              
+  - stage: 'BuildArtifact'
+    displayName: ' Building Artifact'
+    jobs:
+      - job: 'BuildArtifact'
+        displayName: 'Building Artifact'
+        steps:
+        - task: Maven@3
+          inputs:
+            mavenPomFile: 'pom.xml'
+            goals: 'clean package'
+            options: '--no-transfer-progress'
+            publishJUnitResults: true
+            testResultsFiles: '**/surefire-reports/TEST-*.xml'
+            javaHomeOption: 'JDKVersion'
+            mavenVersionOption: 'Default'
+            mavenAuthenticateFeed: false
+            effectivePomSkip: false
+            sonarQubeRunAnalysis: false
