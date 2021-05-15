@@ -24,6 +24,7 @@ stages:
             inputs:
               mavenPomFile: 'pom.xml'
               goals: 'test'
+              options: '--no-transfer-progress'
               publishJUnitResults: true
               testResultsFiles: '**/surefire-reports/TEST-*.xml'
               codeCoverageToolOption: 'JaCoCo'
@@ -34,9 +35,11 @@ stages:
               sonarQubeRunAnalysis: false
               checkStyleRunAnalysis: true
               pmdRunAnalysis: true
+              
   - stage: 'BuildArtifact'
     dependsOn: 'Junit'
     displayName: 'Build Artifact'
+    condition: and(succeeded(),ne(variables['Build.Reason'],'PullRequest') )
     jobs:
       - job: 'BuildArtifact'
         steps:
@@ -44,6 +47,7 @@ stages:
           inputs:
             mavenPomFile: 'pom.xml'
             goals: 'clean package'
+            options: '--no-transfer-progress'
             publishJUnitResults: true
             testResultsFiles: '**/surefire-reports/TEST-*.xml'
             javaHomeOption: 'JDKVersion'
