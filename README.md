@@ -1,2 +1,2 @@
-# Azuredevopsdemo-spring
-CICD setup using azure devops pipeline 
+# Azuredevopsdemo-spring - Pipeline creation
+CICD setup using azure devops pipeline demo
