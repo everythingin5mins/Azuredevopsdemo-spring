@@ -13,32 +13,8 @@ pool:
   vmImage: ubuntu-latest
 
 stages:
-  - stage: 'Junit'
-    displayName: 'Junit Stage'
-    jobs:
-      - job: 'JunitTest'
-        displayName: 'Running unit tests'
-        steps:
-          - script: echo 'Running Spring demo app unit test'
-          - task: Maven@3
-            inputs:
-              mavenPomFile: 'pom.xml'
-              goals: 'test'
-              options: '--no-transfer-progress'
-              publishJUnitResults: true
-              testResultsFiles: '**/surefire-reports/TEST-*.xml'
-              codeCoverageToolOption: 'JaCoCo'
-              javaHomeOption: 'JDKVersion'
-              mavenVersionOption: 'Default'
-              mavenAuthenticateFeed: false
-              effectivePomSkip: false
-              sonarQubeRunAnalysis: false
-              checkStyleRunAnalysis: true
-              pmdRunAnalysis: true
-              
   - stage: 'BuildArtifact'
     displayName: ' Building Artifact'
-    condition: and(succeeded(),ne(variables['Build.Reason'],'PullRequest'))
     dependsOn: 'Junit'
     jobs:
       - job: 'BuildArtifact'
@@ -68,3 +44,29 @@ stages:
             PathtoPublish: '$(Build.ArtifactStagingDirectory)'
             ArtifactName: 'drop'
             publishLocation: 'Container'
+          displayName: 'Publish Artifact'
+          
+        - task: CopyFiles@2
+          inputs:
+            SourceFolder: '$(agent.builddirectory)'
+            Contents: '**\cicd\**'
+            TargetFolder: '$(build.artifactstagingdirectory)'
+        - task: PublishBuildArtifacts@1
+          inputs:
+            PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+            ArtifactName: 'cicd'
+            publishLocation: 'Container'
+            
+  - stage: 'Dockerize'
+    displayName: 'Create Docker Image'
+    condition: and(succeeded(),ne(variables['Build.Reason'],'PullRequest'))
+    jobs:
+      - job: 'CreateDockerImage'
+        displayName: 'Build and Push Docker Image'
+        steps:
+        - task: DownloadBuildArtifacts@0
+          inputs:
+            buildType: 'current'
+            downloadType: 'single'
+            artifactName: 'drop'
+            downloadPath: '$(System.ArtifactsDirectory)'
