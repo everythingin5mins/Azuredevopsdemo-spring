@@ -72,7 +72,7 @@ stages:
           inputs:
             SourceFolder: 'drop'
             Contents: '*.jar'
-            TargetFolder: '$(build.artifactstagingdirectory)/s/cicd/drop'
+            TargetFolder: '$(build.artifactstagingdirectory)/s/cicd/docker/drop'
         - task: Docker@2
           inputs:
             containerRegistry: 'Docker Hub'
