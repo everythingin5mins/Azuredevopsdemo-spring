@@ -73,10 +73,10 @@ stages:
           inputs:
             SourceFolder: 'drop'
             Contents: '*.jar'
-            TargetFolder: '$(build.artifactstagingdirectory)/s/cicd/docker/drop'
+            TargetFolder: '$(Agent.BuildDirectory)/s/cicd/docker/drop'
         - task: Docker@2
           inputs:
             containerRegistry: 'Docker Hub'
-            repository: 'ittechtamil / azuredevopsdemospring'
+            repository: 'ittechtamil/azuredevopsdemospring'
             command: 'buildAndPush'
-            Dockerfile: '$(build.artifactstagingdirectory)/s/cicd/docker/DockerFile'
+            Dockerfile: '$(Agent.BuildDirectory)/s/cicd/docker/DockerFile'
