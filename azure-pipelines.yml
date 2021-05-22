@@ -47,25 +47,35 @@ stages:
           
         - task: CopyFiles@2
           inputs:
-            SourceFolder: '$(agent.builddirectory)'
-            Contents: '**\cicd\**'
+            SourceFolder: '$(agent.builddirectory)/s/cicd'
+            Contents: '**'
             TargetFolder: '$(build.artifactstagingdirectory)'
         - task: PublishBuildArtifacts@1
           inputs:
             PathtoPublish: '$(Build.ArtifactStagingDirectory)'
             ArtifactName: 'cicd'
             publishLocation: 'Container'
-            
   - stage: 'Dockerize'
     displayName: 'Create Docker Image'
-    condition: and(succeeded(),ne(variables['Build.Reason'],'PullRequest'))
+    condition: and(succeded(),ne(variables[Build.Reason],'PullRequest'))
     jobs:
       - job: 'CreateDockerImage'
-        displayName: 'Build and Push Docker Image'
+        displayName: 'Build and Publist Docker Image'
         steps:
         - task: DownloadBuildArtifacts@0
           inputs:
             buildType: 'current'
             downloadType: 'single'
             artifactName: 'drop'
-            downloadPath: '$(System.ArtifactsDirectory)'
+            downloadPath: '.'
+        - task: CopyFiles@2
+          inputs:
+            SourceFolder: 'drop'
+            Contents: '*.jar'
+            TargetFolder: '$(build.artifactstagingdirectory)/s/cicd/drop'
+        - task: Docker@2
+          inputs:
+            containerRegistry: 'Docker Hub'
+            repository: 'ittechtamil / azuredevopsdemospring'
+            command: 'buildAndPush'
+            Dockerfile: '$(build.artifactstagingdirectory)/s/cicd/Dockerfile'
