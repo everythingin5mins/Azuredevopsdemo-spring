@@ -15,7 +15,6 @@ pool:
 stages:
   - stage: 'BuildArtifact'
     displayName: ' Building Artifact'
-    dependsOn: 'Junit'
     jobs:
       - job: 'BuildArtifact'
         displayName: 'Building Artifact'
