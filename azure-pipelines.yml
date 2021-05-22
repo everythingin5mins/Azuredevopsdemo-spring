@@ -55,6 +55,7 @@ stages:
             PathtoPublish: '$(Build.ArtifactStagingDirectory)'
             ArtifactName: 'cicd'
             publishLocation: 'Container'
+
   - stage: 'Dockerize'
     displayName: 'Create Docker Image'
     condition: and(succeeded(),ne(variables['Build.Reason'],'PullRequest'))
@@ -78,4 +79,4 @@ stages:
             containerRegistry: 'Docker Hub'
             repository: 'ittechtamil / azuredevopsdemospring'
             command: 'buildAndPush'
-            Dockerfile: '$(Agent.BuildDirectory)/s/cicd/docker/DockerFile'
+            Dockerfile: '$(build.artifactstagingdirectory)/s/cicd/docker/DockerFile'
