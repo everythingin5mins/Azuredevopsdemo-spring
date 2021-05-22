@@ -57,7 +57,7 @@ stages:
             publishLocation: 'Container'
   - stage: 'Dockerize'
     displayName: 'Create Docker Image'
-    condition: and(succeded(),ne(variables[Build.Reason],'PullRequest'))
+    condition: and(succeeded(),ne(variables['Build.Reason'],'PullRequest'))
     jobs:
       - job: 'CreateDockerImage'
         displayName: 'Build and Publist Docker Image'
