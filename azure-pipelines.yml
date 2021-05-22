@@ -60,7 +60,7 @@ stages:
     condition: and(succeeded(),ne(variables['Build.Reason'],'PullRequest'))
     jobs:
       - job: 'CreateDockerImage'
-        displayName: 'Build and Publist Docker Image'
+        displayName: 'Build and Publish Docker Image'
         steps:
         - task: DownloadBuildArtifacts@0
           inputs:
@@ -78,4 +78,4 @@ stages:
             containerRegistry: 'Docker Hub'
             repository: 'ittechtamil / azuredevopsdemospring'
             command: 'buildAndPush'
-            Dockerfile: '$(build.artifactstagingdirectory)/s/cicd/Dockerfile'
+            Dockerfile: '$(build.artifactstagingdirectory)/s/cicd/docker/Dockerfile'
