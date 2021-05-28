@@ -9,8 +9,8 @@ pr:
     include:
       - master
 
-pool:
-  vmImage: ubuntu-latest
+pool: Demo
+  #vmImage: ubuntu-latest
 
 stages:
   - stage: 'BuildArtifact'
