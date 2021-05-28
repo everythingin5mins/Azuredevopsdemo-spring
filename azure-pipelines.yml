@@ -6,10 +6,8 @@
 trigger:
 - main
 
-pool:
+pool: Demo
   #vmImage: ubuntu-latest
-  name: 'Demo'
-  demands: 'mydockeragent'
 
 steps:
 - script: echo Hello, world!
