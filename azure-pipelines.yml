@@ -6,8 +6,8 @@ variables:
 trigger:
 - main
 
-pool: Demo
-  #vmImage: ubuntu-latest
+pool: #Demo
+  vmImage: ubuntu-latest
 
 steps:
 - script: |
