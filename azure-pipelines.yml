@@ -19,42 +19,7 @@ stages:
       - job: 'BuildArtifact'
         displayName: 'Building Artifact'
         steps:
-        - task: Maven@3
-          inputs:
-            mavenPomFile: 'pom.xml'
-            goals: 'clean package'
-            options: '--no-transfer-progress'
-            publishJUnitResults: true
-            testResultsFiles: '**/surefire-reports/TEST-*.xml'
-            javaHomeOption: 'JDKVersion'
-            mavenVersionOption: 'Default'
-            mavenAuthenticateFeed: false
-            effectivePomSkip: false
-            sonarQubeRunAnalysis: false
-        - task: CopyFiles@2
-          inputs:
-            SourceFolder: '$(agent.builddirectory)/s/target'
-            Contents: '*.jar'
-            TargetFolder: '$(build.artifactstagingdirectory)'
-            CleanTargetFolder: true
-            OverWrite: true
-        - task: PublishBuildArtifacts@1
-          inputs:
-            PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-            ArtifactName: 'drop'
-            publishLocation: 'Container'
-          displayName: 'Publish Artifact'
-          
-        - task: CopyFiles@2
-          inputs:
-            SourceFolder: '$(agent.builddirectory)/s/cicd'
-            Contents: '**'
-            TargetFolder: '$(build.artifactstagingdirectory)'
-        - task: PublishBuildArtifacts@1
-          inputs:
-            PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-            ArtifactName: 'cicd'
-            publishLocation: 'Container'
+        - template: '$(agent.builddirectory)/s/cicd/stages/build_stage.yml'
 
   - stage: 'Dockerize'
     displayName: 'Create Docker Image'
@@ -63,20 +28,4 @@ stages:
       - job: 'CreateDockerImage'
         displayName: 'Build and Publish Docker Image'
         steps:
-        - task: DownloadBuildArtifacts@0
-          inputs:
-            buildType: 'current'
-            downloadType: 'single'
-            artifactName: 'drop'
-            downloadPath: '.'
-        - task: CopyFiles@2
-          inputs:
-            SourceFolder: 'drop'
-            Contents: '*.jar'
-            TargetFolder: '$(Agent.BuildDirectory)/s/cicd/docker/drop'
-        - task: Docker@2
-          inputs:
-            containerRegistry: 'Docker Hub'
-            repository: 'ittechtamil/azuredevopsdemospring'
-            command: 'buildAndPush'
-            Dockerfile: '$(Agent.BuildDirectory)/s/cicd/docker/DockerFile'
+        - template: '$(agent.builddirectory)/s/cicd/stages/dockerise_stage.yml'
