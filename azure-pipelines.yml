@@ -37,7 +37,6 @@ stages:
               pmdRunAnalysis: true
           - task: DownloadPipelineArtifact@2
             inputs:
-              buildType: 'current'
               itemPattern: 'jacoco.xml'
               targetPath: '.'
           - bash: |
