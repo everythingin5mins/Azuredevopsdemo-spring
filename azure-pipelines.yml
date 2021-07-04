@@ -35,22 +35,11 @@ stages:
               sonarQubeRunAnalysis: false
               checkStyleRunAnalysis: true
               pmdRunAnalysis: true
-              
-  - stage: 'BuildArtifact'
-    displayName: ' Building Artifact'
-    jobs:
-      - job: 'BuildArtifact'
-        displayName: 'Building Artifact'
-        steps:
-        - task: Maven@3
-          inputs:
-            mavenPomFile: 'pom.xml'
-            goals: 'clean package'
-            options: '--no-transfer-progress'
-            publishJUnitResults: true
-            testResultsFiles: '**/surefire-reports/TEST-*.xml'
-            javaHomeOption: 'JDKVersion'
-            mavenVersionOption: 'Default'
-            mavenAuthenticateFeed: false
-            effectivePomSkip: false
-            sonarQubeRunAnalysis: false
+          - task: DownloadPipelineArtifact@2
+            inputs:
+              buildType: 'current'
+              itemPattern: 'jacoco.xml'
+              targetPath: '.'
+          - bash: |
+             sudo apt-fast install -y xmlstarlet
+             ls -a
