@@ -19,42 +19,7 @@ stages:
       - job: 'BuildArtifact'
         displayName: 'Building Artifact'
         steps:
-        - task: Maven@3
-          inputs:
-            mavenPomFile: 'pom.xml'
-            goals: 'clean package'
-            options: '--no-transfer-progress'
-            publishJUnitResults: true
-            testResultsFiles: '**/surefire-reports/TEST-*.xml'
-            javaHomeOption: 'JDKVersion'
-            mavenVersionOption: 'Default'
-            mavenAuthenticateFeed: false
-            effectivePomSkip: false
-            sonarQubeRunAnalysis: false
-        - task: CopyFiles@2
-          inputs:
-            SourceFolder: '$(agent.builddirectory)/s/target'
-            Contents: '*.jar'
-            TargetFolder: '$(build.artifactstagingdirectory)'
-            CleanTargetFolder: true
-            OverWrite: true
-        - task: PublishBuildArtifacts@1
-          inputs:
-            PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-            ArtifactName: 'drop'
-            publishLocation: 'Container'
-          displayName: 'Publish Artifact'
-          
-        - task: CopyFiles@2
-          inputs:
-            SourceFolder: '$(agent.builddirectory)/s/cicd'
-            Contents: '**'
-            TargetFolder: '$(build.artifactstagingdirectory)'
-        - task: PublishBuildArtifacts@1
-          inputs:
-            PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-            ArtifactName: 'cicd'
-            publishLocation: 'Container'
+        - template: 'cicd/templates/build.yml'
 
   - stage: 'Dockerize'
     displayName: 'Create Docker Image'
