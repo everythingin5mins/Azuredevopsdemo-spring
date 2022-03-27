@@ -9,7 +9,7 @@ pr:
     include:
       - master
 
-pool: Myagent
+pool: Default
 
 stages:
   - stage: 'Junit'
