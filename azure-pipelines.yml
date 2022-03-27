@@ -75,7 +75,7 @@ stages:
             TargetFolder: '$(Agent.BuildDirectory)/s/cicd/docker/drop'
         - bash: |
                  echo 'Test directory'
-                 cd $(Agent.BuildDirectory)/s/cicd/docker/DockerFile
+                 cd $(Agent.BuildDirectory)/s/cicd/docker
                  ls -a
 
         - task: Docker@2
