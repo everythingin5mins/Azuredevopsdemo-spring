@@ -9,7 +9,7 @@ pr:
     include:
       - master
 
-pool: Default
+pool: Demo
 
 stages:
   - stage: 'Junit'
