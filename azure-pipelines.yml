@@ -23,7 +23,6 @@ stages:
           inputs:
             mavenPomFile: 'pom.xml'
             goals: 'clean package'
-            options: '--no-transfer-progress'
             publishJUnitResults: true
             testResultsFiles: '**/surefire-reports/TEST-*.xml'
             javaHomeOption: 'JDKVersion'
