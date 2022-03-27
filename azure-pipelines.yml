@@ -82,4 +82,4 @@ stages:
             containerRegistry: 'Docker Hub'
             repository: 'ittechtamil/azuredevopsdemospring'
             command: 'buildAndPush'
-            Dockerfile: '$(Agent.BuildDirectory)/s/cicd/docker/DockerFile'
+            Dockerfile: 'cicd/docker/DockerFile'
