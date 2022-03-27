@@ -9,8 +9,7 @@ pr:
     include:
       - master
 
-pool:
-  vmImage: ubuntu-latest
+pool: Myagent
 
 stages:
   - stage: 'Junit'
