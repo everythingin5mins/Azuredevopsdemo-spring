@@ -16,6 +16,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libunwind8 \
     netcat \
     libssl1.0 \
+    maven \
   && rm -rf /var/lib/apt/lists/*
 
 RUN curl -LsS https://aka.ms/InstallAzureCLIDeb | bash \
