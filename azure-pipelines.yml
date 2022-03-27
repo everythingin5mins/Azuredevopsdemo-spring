@@ -73,6 +73,10 @@ stages:
             SourceFolder: 'drop'
             Contents: '*.jar'
             TargetFolder: '$(Agent.BuildDirectory)/s/cicd/docker/drop'
+        - bash: |
+                 echo 'Test directory'
+                 ls -a
+
         - task: Docker@2
           inputs:
             containerRegistry: 'Docker Hub'
