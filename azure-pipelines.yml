@@ -73,11 +73,9 @@ stages:
             SourceFolder: 'drop'
             Contents: '*.jar'
             TargetFolder: '$(Agent.BuildDirectory)/s/cicd/docker/drop'
-        - bash: |
-                 echo 'Test directory'
-                 cd $(Agent.BuildDirectory)/s/cicd/docker
-                 ls -a
-
+        - task: DockerInstaller@0
+          inputs:
+            dockerVersion: '17.09.0-ce'
         - task: Docker@2
           inputs:
             containerRegistry: 'Docker Hub'
