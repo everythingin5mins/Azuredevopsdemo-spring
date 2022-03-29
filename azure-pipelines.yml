@@ -17,7 +17,7 @@ stages:
     displayName: 'Build Branch Name'
     jobs:
       - job: 'BranchName'
-        paramters:
+        variables:
           branchName: $(Build.SourceBranch)
           branchPRNumber: $[counter(variables['System.PullRequest.PullRequestId'], 0)]
           branchBuildNumber: $[counter(variables['Build.SourceBranch'], 0)]
