@@ -12,7 +12,7 @@
             TargetFolder: '$(Agent.BuildDirectory)/s/cicd/docker/drop'
         - task: Docker@2
           inputs:
-            containerRegistry: 'Docker Hub'
+            containerRegistry: 'DockerHub'
             repository: 'ittechtamil/azuredevopsdemospring'
             command: 'buildAndPush'
             Dockerfile: '$(Agent.BuildDirectory)/s/cicd/docker/DockerFile'
