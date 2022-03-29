@@ -13,6 +13,18 @@ pool:
   vmImage: ubuntu-latest
 
 stages:
+  - stage: 'BuildBranchName'
+    displayName: 'Build Branch Name'
+    jobs:
+      - job: 'BranchName'
+        variables:
+          branchName: $(Build.SourceBranch)
+          branchPRNumber: $[counter(variables['System.PullRequest.PullRequestId'], 0)]
+          branchBuildNumber: $[counter(variables['Build.SourceBranch'], 0)]
+        displayName: 'BranchName'
+        steps:
+        - template: 'cicd/templates/buildBranchName.yml'
+
   - stage: 'BuildArtifact'
     displayName: ' Building Artifact'
     jobs:
