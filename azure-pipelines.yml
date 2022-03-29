@@ -19,7 +19,7 @@ stages:
       - job: 'BuildArtifact'
         displayName: 'Building Artifact'
         steps:
-        - template: '$(agent.builddirectory)/s/cicd/stages/build_stage.yml'
+        - template: 'cicd/templates/build.yml'
 
   - stage: 'Dockerize'
     displayName: 'Create Docker Image'
@@ -28,4 +28,4 @@ stages:
       - job: 'CreateDockerImage'
         displayName: 'Build and Publish Docker Image'
         steps:
-        - template: '$(agent.builddirectory)/s/cicd/stages/dockerise_stage.yml'
+          - template: 'cicd/templates/dockerize.yml'

@@ -1,0 +1,18 @@
+        steps:
+        - task: DownloadBuildArtifacts@0
+          inputs:
+            buildType: 'current'
+            downloadType: 'single'
+            artifactName: 'drop'
+            downloadPath: '.'
+        - task: CopyFiles@2
+          inputs:
+            SourceFolder: 'drop'
+            Contents: '*.jar'
+            TargetFolder: '$(Agent.BuildDirectory)/s/cicd/docker/drop'
+        - task: Docker@2
+          inputs:
+            containerRegistry: 'DockerHub'
+            repository: 'ittechtamil/azuredevopsdemospring'
+            command: 'buildAndPush'
+            Dockerfile: '$(Agent.BuildDirectory)/s/cicd/docker/DockerFile'
