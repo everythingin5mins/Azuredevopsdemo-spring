@@ -1,0 +1,7 @@
+        steps:
+        - bash: |
+            ##vso[build.updatebuildnumber]PullRequest-$(branchPRNumber)
+          condition: eq(variables['Build.Reason'], 'PullRequest')
+        - bash: |
+            ##vso[build.updatebuildnumber]$(branchName)-$(branchBuildNumber)
+          condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')          
