@@ -1,10 +1,10 @@
         steps:
           - bash: |
-              echo ##vso[build.updatebuildnumber]PullRequest-$(branchPRNumber)
+              echo "##vso[build.updatebuildnumber]PullRequest-$(branchPRNumber)"
             condition: eq(variables['Build.Reason'], 'PullRequest')
             name: 'UpdatePRBranch'
           - bash: |
-              echo ##vso[build.updatebuildnumber]$(branchName)-$(branchBuildNumber)
+              echo "##vso[build.updatebuildnumber]$(branchName)-$(branchBuildNumber)"
             condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
             name: 'UpdateBuildBranch'
           
