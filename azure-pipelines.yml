@@ -1,4 +1,11 @@
 #Demo Spring application
+parameters:
+- buildName: 'Demo'
+  type: string
+- majorVersion: 1
+  type: number 
+- minorVersion: 0
+  type: number 
 
 trigger:
  branches:
@@ -18,7 +25,9 @@ stages:
     jobs:
       - job: 'BranchName'
         variables:
-          branchName: $(Build.SourceBranch)
+          buildName: ${{parameters.buildName}}
+          major: ${{parameters.majorVersion}}
+          minor: ${{parameters.minorVersion}}
           branchPRNumber: $[counter(variables['System.PullRequest.PullRequestId'], 0)]
           branchBuildNumber: $[counter(variables['Build.SourceBranch'], 0)]
         displayName: 'BranchName'
