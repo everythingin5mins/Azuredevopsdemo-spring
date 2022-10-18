@@ -10,7 +10,7 @@ pool:
   vmImage: ubuntu-latest
 
 stages:
-  - stage: 'Run Junit test'
+  - stage: 'Junit'
     displayName: 'Run the Junit test'
     jobs:
       - job: 'Run junit test1'
