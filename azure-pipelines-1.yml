@@ -14,7 +14,6 @@ stages:
     displayName: 'Run the Junit test'
     jobs:
       - job: 'Run junit test1'
-        displayname: 'Run Junit test1'
+        displayName: 'Run Junit test1'
         steps:
           script: "echo this is running"
-          
