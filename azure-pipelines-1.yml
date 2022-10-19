@@ -32,4 +32,23 @@ stages:
               checkStyleRunAnalysis: true
               pmdRunAnalysis: true
 
+  - stage: 'run artifact'
+    displayName: 'run the artifact'    
+    jobs:
+      - job: 'run the artifact'
+        steps:
+          - script: "echo this i sartifact"
+          - task: Maven@3
+            inputs:
+              mavenPomFile: 'pom.xml'
+              goals: 'clean package'
+              options: '--no-transfer-progress'
+              publishJUnitResults: true
+              testResultsFiles: '**/surefire-reports/TEST-*.xml'
+              javaHomeOption: 'JDKVersion'
+              mavenVersionOption: 'Default'
+              mavenAuthenticateFeed: false
+              effectivePomSkip: false
+              sonarQubeRunAnalysis: false
+
             
