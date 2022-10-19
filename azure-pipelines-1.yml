@@ -32,7 +32,7 @@ stages:
               checkStyleRunAnalysis: true
               pmdRunAnalysis: true
 
-  - stage: 'run artifact'
+  - stage: 'runartifact'
     displayName: 'run the artifact'    
     jobs:
       - job: 'run the artifact'
