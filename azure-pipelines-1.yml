@@ -32,10 +32,10 @@ stages:
               checkStyleRunAnalysis: true
               pmdRunAnalysis: true
 
-  - stage: 'runartifact'
+  - stage: 'BuildArtifact'
     displayName: 'run the artifact'    
     jobs:
-      - job: 'run the artifact'
+      - job: 'BuildArtifact'
         steps:
           - script: "echo this i sartifact"
           - task: Maven@3
