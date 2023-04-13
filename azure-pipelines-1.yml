@@ -26,7 +26,7 @@ steps:
     replaceExistingArchive: true
 - task: CopyFiles@2
   inputs:
-    SourceFolder: '$(agent.builddirectory)/s/target'
+    SourceFolder: '$(System.DefaultWorkingDirectory)/s/target'
     Contents: '*.jar'
     TargetFolder: '$(build.artifactstagingdirectory)'
 
