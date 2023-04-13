@@ -26,12 +26,14 @@ steps:
     replaceExistingArchive: true
 - task: CopyFiles@2
   inputs:
-    SourceFolder: '$(System.DefaultWorkingDirectory)'
+    SourceFolder: '$(System.DefaultWorkingDirectory)/s/target'
     Contents: '*.jar'
     TargetFolder: '$(build.artifactstagingdirectory)'
+    CleanTargetFolder: true
+    Overwrite: true
 
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'webapp'
+    ArtifactName: 'drop'
     publishLocation: 'Container'
