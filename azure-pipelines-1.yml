@@ -1,0 +1,55 @@
+#demospring app
+trigger:
+ branches:
+   include:
+     - master
+
+pr:
+  branches:
+    include:
+      - master
+
+pool:
+  vmImage: ubuntu-latest
+
+stages:
+  - stage: 'Junit'
+    displayName: 'Junit stage'
+    jobs:
+      - job: 'JunitTest'
+        displayName: 'Running unit tests'
+        steps:
+          - script: echo 'Running Spring demo unit test'
+          - task: Maven@4
+            inputs:
+              mavenPomFile: 'pom.xml'
+              goals: 'test'
+              publishJUnitResults: true
+              testResultsFiles: '**/surefire-reports/TEST-*.xml'
+              codeCoverageToolOption: 'JaCoCo'
+              javaHomeOption: 'JDKVersion'
+              mavenVersionOption: 'Default'
+              mavenAuthenticateFeed: false
+              effectivePomSkip: false
+              sonarQubeRunAnalysis: false
+              checkStyleRunAnalysis: true
+              pmdRunAnalysis: true
+  - stage: 'BuildArtifact'
+    displayName: 'BuildingArtifact'
+    jobs:
+      - job: 'BuildArtifact'
+        displayName: 'BuildingArtifact'
+        steps:
+        - task: Maven@4
+          inputs:
+            mavenPomFile: 'pom.xml'
+            goals: 'clean package'
+            publishJUnitResults: true
+            testResultsFiles: '**/surefire-reports/TEST-*.xml'
+            javaHomeOption: 'JDKVersion'
+            mavenVersionOption: 'Default'
+            mavenAuthenticateFeed: false
+            effectivePomSkip: false
+            sonarQubeRunAnalysis: false
+        
+          
