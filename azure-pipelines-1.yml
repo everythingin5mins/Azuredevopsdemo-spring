@@ -1,6 +1,13 @@
 #demospring app
 trigger:
-- master
+ branches:
+   include:
+     - master
+
+pr:
+  branches:
+    include:
+      - master
 
 pool:
   vmImage: ubuntu-latest
@@ -27,4 +34,22 @@ stages:
               sonarQubeRunAnalysis: false
               checkStyleRunAnalysis: true
               pmdRunAnalysis: true
-    
+  - stage: 'BuildArtifact'
+    displayName: 'BuildingArtifact'
+    jobs:
+      - job: 'BuildArtifact'
+        displayName: 'BuildingArtifact'
+        steps:
+        - task: Maven@4
+          inputs:
+            mavenPomFile: 'pom.xml'
+            goals: 'clean package'
+            publishJUnitResults: true
+            testResultsFiles: '**/surefire-reports/TEST-*.xml'
+            javaHomeOption: 'JDKVersion'
+            mavenVersionOption: 'Default'
+            mavenAuthenticateFeed: false
+            effectivePomSkip: false
+            sonarQubeRunAnalysis: false
+        
+          
